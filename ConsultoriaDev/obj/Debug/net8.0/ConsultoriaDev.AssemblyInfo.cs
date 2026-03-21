@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ConsultoriaDev")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0751fba85f43d73a613a0444ec52ecf939694eb2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c975c4ae0607810eb21b8ce0287a6934dc3611b0")]
 [assembly: System.Reflection.AssemblyProductAttribute("ConsultoriaDev")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ConsultoriaDev")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
