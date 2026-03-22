@@ -1,0 +1,49 @@
+﻿@model List<ConsultoriaDev.Models.Solicitacao>
+
+<div>
+    <h2>Painel do Tech Lead</h2>
+
+    <div>
+        <div><strong>Últimas Solicitações (@Model.Count)</strong></div>
+
+        <div class="table-responsive mt-3">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Data</th>
+                        <th>Cliente</th>
+                        <th>Email</th>
+                        <th>Problema</th>
+                        <th>Tempo</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model[i].DataSolicitacao.ToString("dd/MM HH:mm")</td>
+                            <td>@Model[i].NomeCliente</td>
+                            <td>@Model[i].EmailCliente</td>
+                            <td>@Model[i].DescricaoProblema</td>
+                            <td>@Model[i].TempoResposta h</td>
+                            <td>@Model[i].Status</td>
+                            <td>
+                                <a asp-controller="Admin" asp-action="Aprovar" asp-route-id="@i" class="btn btn-sm btn-success">
+                                    Aprovar
+                                </a>
+                                <a asp-controller="Admin" asp-action="Reprovar" asp-route-id="@i" class="btn btn-sm btn-danger">
+                                    Reprovar
+                                </a>
+                                <a href="https://wa.me/" target="_blank" class="btn btn-sm btn-primary">
+                                    WhatsApp
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
