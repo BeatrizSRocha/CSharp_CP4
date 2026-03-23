@@ -1,49 +1,59 @@
-﻿@model List<ConsultoriaDev.Models.Solicitacao>
+@model List<ConsultoriaDev.Models.Solicitacao>
+@{
+    ViewData["Title"] = "Painel";
+}
 
-<div>
-    <h2>Painel do Tech Lead</h2>
-
-    <div>
-        <div><strong>Últimas Solicitações (@Model.Count)</strong></div>
-
-        <div class="table-responsive mt-3">
-            <table class="table table-bordered table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Data</th>
-                        <th>Cliente</th>
-                        <th>Email</th>
-                        <th>Problema</th>
-                        <th>Tempo</th>
-                        <th>Status</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Count; i++)
-                    {
-                        <tr>
-                            <td>@Model[i].DataSolicitacao.ToString("dd/MM HH:mm")</td>
-                            <td>@Model[i].NomeCliente</td>
-                            <td>@Model[i].EmailCliente</td>
-                            <td>@Model[i].DescricaoProblema</td>
-                            <td>@Model[i].TempoResposta h</td>
-                            <td>@Model[i].Status</td>
-                            <td>
-                                <a asp-controller="Admin" asp-action="Aprovar" asp-route-id="@i" class="btn btn-sm btn-success">
-                                    Aprovar
-                                </a>
-                                <a asp-controller="Admin" asp-action="Reprovar" asp-route-id="@i" class="btn btn-sm btn-danger">
-                                    Reprovar
-                                </a>
-                                <a href="https://wa.me/" target="_blank" class="btn btn-sm btn-primary">
-                                    WhatsApp
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="mb-4">
+    <h1 class="h3 cd-page-title">Painel do Tech Lead</h1>
+    <p class="text-secondary mb-0">Últimas solicitações <span class="badge bg-secondary">@Model.Count</span></p>
 </div>
+
+@if (Model.Count == 0)
+{
+    <div class="cd-hero px-4 py-5 text-center text-secondary">
+        <p class="mb-2 fw-semibold">Nenhuma solicitação ainda</p>
+        <p class="small mb-0">Novos pedidos aparecerão aqui quando forem enviados pelo site.</p>
+    </div>
+}
+else
+{
+    <div class="table-responsive shadow-sm rounded overflow-hidden bg-white">
+        <table class="table table-striped table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col" class="d-none d-md-table-cell">Email</th>
+                    <th scope="col">Problema</th>
+                    <th scope="col">Tempo</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var status = Model[i].Status;
+                    var badgeClass = status == "Aprovado" ? "bg-success" : status == "Reprovado" ? "bg-danger" : "bg-warning text-dark";
+                    <tr>
+                        <td class="text-nowrap">@Model[i].DataSolicitacao.ToString("dd/MM HH:mm")</td>
+                        <td>@Model[i].NomeCliente</td>
+                        <td class="d-none d-md-table-cell"><a href="mailto:@Model[i].EmailCliente">@Model[i].EmailCliente</a></td>
+                        <td class="cd-table-problem">
+                            <span class="d-inline-block text-truncate w-100" title="@Model[i].DescricaoProblema">@Model[i].DescricaoProblema</span>
+                        </td>
+                        <td>@Model[i].TempoResposta h</td>
+                        <td><span class="badge @badgeClass">@Model[i].Status</span></td>
+                        <td>
+                            <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Ações para @Model[i].NomeCliente">
+                                <a asp-controller="Admin" asp-action="Aprovar" asp-route-id="@i" class="btn btn-success">Aprovar</a>
+                                <a asp-controller="Admin" asp-action="Reprovar" asp-route-id="@i" class="btn btn-danger">Reprovar</a>
+                                <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">WhatsApp</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
