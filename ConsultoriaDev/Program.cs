@@ -1,6 +1,26 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-var builder = WebApplication.CreateBuilder(args);
+// Garante wwwroot mesmo quando o diretório de trabalho é a pasta da solução (ex.: dotnet run a partir da raiz).
+static string ResolveContentRoot()
+{
+    var baseDir = AppContext.BaseDirectory;
+    if (Directory.Exists(Path.Combine(baseDir, "wwwroot")))
+        return baseDir;
+
+    for (var dir = new DirectoryInfo(baseDir); dir != null; dir = dir.Parent)
+    {
+        if (Directory.Exists(Path.Combine(dir.FullName, "wwwroot")))
+            return dir.FullName;
+    }
+
+    return Directory.GetCurrentDirectory();
+}
+
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = ResolveContentRoot()
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
